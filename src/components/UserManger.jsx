@@ -305,8 +305,8 @@ const UserManger = ({ dispatch, getalluser, getalluserbyid }) => {
         <DialogTitle id="alert-dialog-title">{"Delete user ?"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Do you want remove this user from datable ? if you delete it can't
-            undo
+            Do you want remove this user from data table ? if you delete it
+            can't undo
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -356,9 +356,7 @@ const UserManger = ({ dispatch, getalluser, getalluserbyid }) => {
                   placeholder="Nhập văn bản cho thẻ này"
                   defaultValue={getalluserbyid.userbyid.last}
                   className="form-control w-100"
-                  {...register("lname", {
-                    required: true,
-                  })}
+                  {...register("lname", {})}
                 />
                 <p style={{ color: "red", fontSize: "13px" }}>
                   {" "}

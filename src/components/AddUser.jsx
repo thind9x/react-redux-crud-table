@@ -25,7 +25,7 @@ const AddUser = ({ dispatch, getalluser, adduser }) => {
     register,
     formState: { isDirty, isValid, errors },
     handleSubmit,
-    watch
+    watch,
   } = useForm({ mode: "all" });
   const onSubmit = (data) => {
     var first = data.fname;
@@ -41,17 +41,18 @@ const AddUser = ({ dispatch, getalluser, adduser }) => {
         email,
         phone,
         location,
-        hobby
+        hobby,
       })
       .then(
         (res) => {
           alert("Add Item success");
+          setOpen(false);
           axios
             .get("https://60d2e16c858b410017b2e624.mockapi.io/api/v1/users")
             .then((resp) => {
               dispatch({
                 type: "FETCH_ALL",
-                payload: resp.data
+                payload: resp.data,
               });
             });
         },
@@ -79,7 +80,7 @@ const AddUser = ({ dispatch, getalluser, adduser }) => {
                 className="form-control w-100"
                 placeholder="f name"
                 {...register("fname", {
-                  required: true
+                  required: true,
                 })}
               />
               <p style={{ color: "red", fontSize: "13px" }}>
@@ -94,7 +95,7 @@ const AddUser = ({ dispatch, getalluser, adduser }) => {
                 placeholder="last name"
                 className="form-control w-100"
                 {...register("lname", {
-                  required: true
+                  required: true,
                 })}
               />
               <p style={{ color: "red", fontSize: "13px" }}>
@@ -110,7 +111,7 @@ const AddUser = ({ dispatch, getalluser, adduser }) => {
                 {...register("email", {
                   required: true,
 
-                  pattern: /\S+@\S+\.\S+/
+                  pattern: /\S+@\S+\.\S+/,
                 })}
               />
               <p style={{ color: "red", fontSize: "13px" }}>
@@ -126,7 +127,7 @@ const AddUser = ({ dispatch, getalluser, adduser }) => {
                 {...register("phone", {
                   required: true,
 
-                  pattern: /((09|03|07|08|05)+([0-9]{8})\b)/g
+                  pattern: /((09|03|07|08|05)+([0-9]{8})\b)/g,
                 })}
               />
               <p style={{ color: "red", fontSize: "13px" }}>
@@ -140,7 +141,7 @@ const AddUser = ({ dispatch, getalluser, adduser }) => {
                 className="form-control w-100"
                 placeholder="location"
                 {...register("location", {
-                  required: true
+                  required: true,
                 })}
               />
               <p style={{ color: "red", fontSize: "13px" }}>
@@ -153,7 +154,7 @@ const AddUser = ({ dispatch, getalluser, adduser }) => {
                 placeholder="hobby"
                 className="form-control w-100"
                 {...register("hobby", {
-                  required: true
+                  required: true,
                 })}
               />
               <p style={{ color: "red", fontSize: "13px" }}>
@@ -182,6 +183,6 @@ const AddUser = ({ dispatch, getalluser, adduser }) => {
 };
 const mapStateToProps = (state) => ({
   getalluser: state.getalluser,
-  adduser: state.adduser
+  adduser: state.adduser,
 });
 export default connect(mapStateToProps)(AddUser);

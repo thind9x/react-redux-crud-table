@@ -5,8 +5,10 @@ import React, { useState } from "react";
 import Button from "@material-ui/core/Button";
 import { useHistory } from "react-router-dom";
 
-const EditUser = ({ dispatch, getalluserbyid }) => {
+const EditUser = ({ dispatch, getalluserbyid, handleModal }) => {
   console.log(getalluserbyid.userbyid);
+  console.log(handleModal);
+
   const [forcusfname, setForcusfname] = useState("");
   const [forcuslname, setForcuslname] = useState("");
   const [forcusemail, setForcusemail] = useState("");
@@ -45,7 +47,20 @@ const EditUser = ({ dispatch, getalluserbyid }) => {
         (res) => {
           console.log(res);
           alert("Update Item Successfull");
-          history.push("/");
+          // history.push("/");
+          dispatch({
+            type: "CLOSE_MODAL",
+            payload: false,
+          });
+
+          axios
+            .get("https://60d2e16c858b410017b2e624.mockapi.io/api/v1/users")
+            .then((res) => {
+              dispatch({
+                type: "FETCH_ALL",
+                payload: res.data,
+              });
+            });
         },
         (error) => {
           console.log(error);
@@ -154,5 +169,6 @@ const EditUser = ({ dispatch, getalluserbyid }) => {
 const mapStateToProps = (state) => ({
   getalluser: state.getalluser,
   getalluserbyid: state.getalluserbyid,
+  handleModal: state.handleModal,
 });
 export default connect(mapStateToProps)(EditUser);

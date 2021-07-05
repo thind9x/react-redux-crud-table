@@ -24,6 +24,24 @@ const getalluser = (state = initUser, action) => {
       return state;
   }
 };
+const handleModal = (state = { open: false }, action) => {
+  switch (action.type) {
+    case "OPEN_MODAL":
+      return {
+        loading: true,
+        open: true,
+        error: "",
+      };
+    case "CLOSE_MODAL":
+      return {
+        loading: true,
+        open: false,
+        error: "",
+      };
+    default:
+      return state;
+  }
+};
 const getalluserbyid = (state = { userbyid: {} }, action) => {
   switch (action.type) {
     case "FETCH_USER_BY_ID":
@@ -85,6 +103,7 @@ const reducers = combineReducers({
   getalluser,
   adduser,
   getalluserbyid,
+  handleModal,
 });
 
 const persistedState = loadState();

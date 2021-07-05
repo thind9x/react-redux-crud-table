@@ -26,7 +26,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { useForm } from "react-hook-form";
-
+import EditUser from "./EditUser";
 import {
   List,
   Datagrid,
@@ -100,8 +100,11 @@ const columns = [
   },
 ];
 
-const UserManger = ({ dispatch, getalluser, getalluserbyid }) => {
+const UserManger = ({ dispatch, getalluser, getalluserbyid, handleModal }) => {
   console.log(getalluser.users);
+  console.log(getalluserbyid);
+  console.log(handleModal.open);
+
   // const [fName, setLatName] = useState("");
   // const [lastName, setLatName] = useState("");
   // const [email, setEmail] = useState("");
@@ -257,12 +260,15 @@ const UserManger = ({ dispatch, getalluser, getalluserbyid }) => {
                     <Button
                       variant="contained"
                       onClick={() => {
-                        setOpenE(true);
-
                         dispatch({
                           type: "FETCH_USER_BY_ID",
                           payload: item,
                         });
+                        dispatch({
+                          type: "OPEN_MODAL",
+                          payload: true,
+                        });
+                        setOpenE(false);
                       }}
                       color="primary"
                     >
@@ -319,7 +325,7 @@ const UserManger = ({ dispatch, getalluser, getalluserbyid }) => {
         </DialogActions>
       </Dialog>
       <Dialog
-        open={openE}
+        open={handleModal.open}
         onClose={handleCloseE}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
@@ -329,99 +335,16 @@ const UserManger = ({ dispatch, getalluser, getalluserbyid }) => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            <form
-              method="post"
-              onSubmit={handleSubmit(onSubmit)}
-              id="formlogin"
-            >
-              <div className="form-group">
-                <input
-                  type="text"
-                  className="form-control w-100"
-                  autoFocus
-                  onChange={(e) => {}}
-                  placeholder="Nhập văn bản cho thẻ này"
-                  defaultValue={getalluserbyid.userbyid.first}
-                  {...register("fname", {})}
-                />
-                <p style={{ color: "red", fontSize: "13px" }}>
-                  {" "}
-                  {errors.fname?.type === "required" &&
-                    "Vui lòng nhập tên tài khoản"}
-                </p>
-              </div>
-              <div className="form-group">
-                <input
-                  type="text"
-                  placeholder="Nhập văn bản cho thẻ này"
-                  defaultValue={getalluserbyid.userbyid.last}
-                  className="form-control w-100"
-                  {...register("lname", {})}
-                />
-                <p style={{ color: "red", fontSize: "13px" }}>
-                  {" "}
-                  {errors.lname?.type === "required" && "Pls enter lastname"}
-                </p>
-              </div>
-              <div className="form-group">
-                <input
-                  type="text"
-                  defaultValue={getalluserbyid.userbyid.email}
-                  className="form-control w-100"
-                  {...register("email", {
-                    pattern: /\S+@\S+\.\S+/,
-                  })}
-                />
-                <p style={{ color: "red", fontSize: "13px" }}>
-                  {errors.email?.type === "required" && "Please enter email"}
-                  {errors.email?.type === "pattern" && "Pls enter valid email"}
-                </p>
-              </div>
-              <div className="form-group">
-                <input
-                  type="text"
-                  className="form-control w-100"
-                  defaultValue={getalluserbyid.userbyid.phone}
-                  {...register("phone", {
-                    pattern: /((09|03|07|08|05)+([0-9]{8})\b)/g,
-                  })}
-                />
-                <p style={{ color: "red", fontSize: "13px" }}>
-                  {errors.phone?.type === "required" && "Plse Enter phone"}
-                  {errors.phone?.type === "pattern" && "Plse enter valid phone"}
-                </p>
-              </div>
-              <div className="form-group">
-                <input
-                  type="text"
-                  className="form-control w-100"
-                  defaultValue={getalluserbyid.userbyid.location}
-                  {...register("location", {})}
-                />
-                <p style={{ color: "red", fontSize: "13px" }}>
-                  {errors.location?.type === "required" &&
-                    "Plse Enter location"}
-                </p>
-              </div>
-              <div className="form-group">
-                <input
-                  type="text"
-                  defaultValue={getalluserbyid.userbyid.hobby}
-                  className="form-control w-100"
-                  {...register("hobby", {})}
-                />
-                <p style={{ color: "red", fontSize: "13px" }}>
-                  {errors.hobby?.type === "required" && "Plse Enter hobby"}
-                </p>
-              </div>
-              <button className="btn btn-success w-100">Update</button>
-            </form>
+            <EditUser />
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button
             onClick={() => {
-              setOpenE(false);
+              dispatch({
+                type: "CLOSE_MODAL",
+                payload: false,
+              });
             }}
             color="primary"
           >
@@ -447,5 +370,6 @@ const UserManger = ({ dispatch, getalluser, getalluserbyid }) => {
 const mapStateToProps = (state) => ({
   getalluser: state.getalluser,
   getalluserbyid: state.getalluserbyid,
+  handleModal: state.handleModal,
 });
 export default connect(mapStateToProps)(UserManger);

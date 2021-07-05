@@ -3,7 +3,7 @@ import throttle from "lodash.throttle";
 const initUser = {
   numberUser: 0,
   arr: [],
-  users: []
+  users: [],
 };
 const getalluser = (state = initUser, action) => {
   switch (action.type) {
@@ -12,54 +12,13 @@ const getalluser = (state = initUser, action) => {
         loading: true,
         ...state,
         users: action.payload,
-        error: ""
-      };
-    case "ADD_USER":
-      if (state.numberUser === 0) {
-        let user = {
-          id: action.payload.id,
-          quantity: 1,
-
-          first: action.payload.first,
-          last: action.payload.last,
-          email: action.payload.email,
-          phone: action.payload.phone,
-          location: action.payload.location,
-          hobby: action.payload.hobby
-        };
-        state.users.push(user);
-      } else {
-        let check = false;
-        state.users.map((item, key) => {
-          if (item.id === action.payload.id) {
-            state.user[key].quantity++;
-            check = true;
-          }
-        });
-        if (!check) {
-          let _user = {
-            id: action.payload.id,
-            quantity: 1,
-
-            first: action.payload.first,
-            last: action.payload.last,
-            email: action.payload.email,
-            phone: action.payload.phone,
-            location: action.payload.location,
-            hobby: action.payload.hobby
-          };
-          state.arr.push(_user);
-        }
-      }
-      return {
-        ...state,
-        numberCart: state.numberCart + 1
+        error: "",
       };
 
     case "FETCH_ERROR":
       return {
         ...state,
-        error: "error"
+        error: "error",
       };
     default:
       return state;
@@ -71,13 +30,13 @@ const getalluserbyid = (state = { userbyid: {} }, action) => {
       return {
         loading: true,
         userbyid: action.payload,
-        error: ""
+        error: "",
       };
 
     case "FETCH_ERROR":
       return {
         userbyid: {},
-        error: "error"
+        error: "error",
       };
     default:
       return state;
@@ -89,12 +48,12 @@ const adduser = (state = { users: [] }, action) => {
       return {
         loading: true,
         users: action.payload,
-        error: ""
+        error: "",
       };
     case "FETCH_ERROR":
       return {
         user: [],
-        error: "error"
+        error: "error",
       };
     default:
       return state;
@@ -125,14 +84,14 @@ const loadState = () => {
 const reducers = combineReducers({
   getalluser,
   adduser,
-  getalluserbyid
+  getalluserbyid,
 });
 
 const persistedState = loadState();
 const store = createStore(reducers, persistedState);
 store.dispatch({
   type: "ADD_CARD",
-  payload: {}
+  payload: {},
 });
 store.subscribe(
   throttle(() => {

@@ -1,39 +1,23 @@
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import axios from "axios";
-import { Link } from "react-router-dom";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
-import { DataGrid } from "@material-ui/data-grid";
 import Button from "@material-ui/core/Button";
-import AddUser from "./AddUser";
-import { CSVLink } from "react-csv";
-import TextareaAutosize from "react-textarea-autosize";
-import MaterialTable from "material-table";
-import Input from "@material-ui/core/Input";
-import IconButton from "@material-ui/core/IconButton";
-import { makeStyles } from "@material-ui/core/styles";
-import { Admin, Resource } from "react-admin";
-import TablePagination from "@material-ui/core/TablePagination";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { useForm } from "react-hook-form";
+import Paper from "@material-ui/core/Paper";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TablePagination from "@material-ui/core/TablePagination";
+import TableRow from "@material-ui/core/TableRow";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { CSVLink } from "react-csv";
+import { connect } from "react-redux";
+import AddUser from "./AddUser";
 import EditUser from "./EditUser";
-import {
-  List,
-  Datagrid,
-  TextField,
-  DateField,
-  BooleanField,
-} from "react-admin";
 
 const columns = [
   {
@@ -160,52 +144,6 @@ const UserManger = ({ dispatch, getalluser, getalluserbyid, handleModal }) => {
     setPage(0);
   };
 
-  const {
-    register,
-    formState: { isDirty, isValid, errors },
-    handleSubmit,
-    watch,
-  } = useForm({ mode: "all" });
-  const onSubmit = (data) => {
-    console.log(data.confirmpassword);
-    var first = data.fname;
-    var last = data.lname;
-    var email = data.email;
-    var phone = data.phone;
-    var location = data.location;
-    var hobby = data.hobby;
-    axios
-      .put(
-        `https://60d2e16c858b410017b2e624.mockapi.io/api/v1/users/${getalluserbyid.userbyid.id}`,
-        {
-          first,
-          last,
-          email,
-          phone,
-          location,
-          hobby,
-        }
-      )
-      .then(
-        (res) => {
-          console.log(res);
-          alert("Update Item Successfull");
-          setOpenE(false);
-
-          axios
-            .get("https://60d2e16c858b410017b2e624.mockapi.io/api/v1/users")
-            .then((res) => {
-              dispatch({
-                type: "FETCH_ALL",
-                payload: res.data,
-              });
-            });
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-  };
   useEffect(() => {
     let sub = true;
     axios

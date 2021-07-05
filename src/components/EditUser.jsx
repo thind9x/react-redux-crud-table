@@ -9,13 +9,13 @@ const EditUser = ({ dispatch, getalluserbyid, handleModal }) => {
   console.log(getalluserbyid.userbyid);
   console.log(handleModal);
 
-  const [forcusfname, setForcusfname] = useState("");
-  const [forcuslname, setForcuslname] = useState("");
-  const [forcusemail, setForcusemail] = useState("");
-  const [forcusphone, setForcusphone] = useState("");
-  const [forcushoby, setForcushobby] = useState("");
-  const [forcuslocation, setForcuslocation] = useState("");
-  let history = useHistory();
+  // const [forcusfname, setForcusfname] = useState("");
+  // const [forcuslname, setForcuslname] = useState("");
+  // const [forcusemail, setForcusemail] = useState("");
+  // const [forcusphone, setForcusphone] = useState("");
+  // const [forcushoby, setForcushobby] = useState("");
+  // const [forcuslocation, setForcuslocation] = useState("");
+  // let history = useHistory();
 
   const {
     register,
@@ -70,19 +70,10 @@ const EditUser = ({ dispatch, getalluserbyid, handleModal }) => {
   return (
     <div>
       <form method="post" onSubmit={handleSubmit(onSubmit)} id="formlogin">
-        <h3>Edit userID :{getalluserbyid.userbyid.id}</h3>
         <div className="form-group">
           <input
             type="text"
             className="form-control w-100"
-            autoFocus
-            onChange={(e) => {}}
-            onFocus={() => {
-              setForcusfname(true);
-            }}
-            onBlur={() => {
-              setForcusfname(false);
-            }}
             placeholder="Nhập văn bản cho thẻ này"
             defaultValue={getalluserbyid.userbyid.first}
             {...register("fname", {})}
@@ -95,12 +86,6 @@ const EditUser = ({ dispatch, getalluserbyid, handleModal }) => {
         <div className="form-group">
           <input
             type="text"
-            onFocus={() => {
-              setForcuslname(true);
-            }}
-            onBlur={() => {
-              setForcuslname(false);
-            }}
             placeholder="Nhập văn bản cho thẻ này"
             defaultValue={getalluserbyid.userbyid.last}
             className="form-control w-100"

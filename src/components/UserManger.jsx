@@ -172,7 +172,11 @@ const UserManger = ({ dispatch, getalluser, getalluserbyid, handleModal }) => {
               <TableCell align="right">Email</TableCell>
               <TableCell align="right">Phone</TableCell>
               <TableCell align="right">Location</TableCell>
-              <TableCell align="right">Hobby</TableCell>
+              {/* <TableCell align="right">Hobby</TableCell> */}
+              <TableCell align="right">Active</TableCell>
+              <TableCell align="right">Create At</TableCell>
+              <TableCell align="right">Update At</TableCell>
+
               <TableCell align="right">Action</TableCell>
             </TableRow>
           </TableHead>
@@ -193,7 +197,14 @@ const UserManger = ({ dispatch, getalluser, getalluserbyid, handleModal }) => {
                   <TableCell align="right">{item.email}</TableCell>
                   <TableCell align="right">{item.phone}</TableCell>
                   <TableCell align="right">{item.location}</TableCell>
-                  <TableCell align="right">{item.hobby}</TableCell>
+                  {/* <TableCell align="right">{item.hobby}</TableCell> */}
+                  <TableCell align="right">
+                    {item.active ? "Activated" : "Deactivated"}
+                  </TableCell>
+
+                  <TableCell align="right">{item.createdAt}</TableCell>
+                  <TableCell align="right">{item.upDateAt}</TableCell>
+
                   <TableCell align="right" style={{ paddingLeft: "5px" }}>
                     <Button
                       variant="contained"

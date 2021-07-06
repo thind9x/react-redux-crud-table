@@ -31,6 +31,22 @@ const EditUser = ({ dispatch, getalluserbyid, handleModal }) => {
     var phone = data.phone;
     var location = data.location;
     var hobby = data.hobby;
+    var active = String(data.active) == "true";
+    var upDateAt = new Date();
+    var dd = String(upDateAt.getDate()).padStart(2, "0");
+    var mm = String(upDateAt.getMonth() + 1).padStart(2, "0"); //January is 0!
+    var yyyy = upDateAt.getFullYear();
+    // var active = Boolean(act); // initial value of true
+    console.log(active);
+    upDateAt = mm + "/" + dd + "/" + yyyy;
+    // getalluser.users.map((item) => {
+    //   console.log(item);
+    //   if (email === item.email) {
+    //     exist = true;
+    //   } else if (email !== item.email) {
+    //     exist = false;
+    //   }
+    // });
     axios
       .put(
         `https://60d2e16c858b410017b2e624.mockapi.io/api/v1/users/${getalluserbyid.userbyid.id}`,
@@ -41,6 +57,8 @@ const EditUser = ({ dispatch, getalluserbyid, handleModal }) => {
           phone,
           location,
           hobby,
+          active,
+          upDateAt,
         }
       )
       .then(
@@ -146,7 +164,27 @@ const EditUser = ({ dispatch, getalluserbyid, handleModal }) => {
             {errors.hobby?.type === "required" && "Plse Enter hobby"}
           </p>
         </div>
-        <button className="btn btn-success w-100">Update</button>
+        <div className="form-group">
+          <label>
+            Current User :{" "}
+            {getalluserbyid.userbyid.active ? "Activated" : "Deactivated"}
+          </label>
+          <select
+            className="form-control"
+            id="active"
+            {...register("active", {})}
+          >
+            <option value={getalluserbyid.userbyid.active ? "true" : "false"}>
+              --
+            </option>
+
+            <option value="true">Activate</option>
+            <option value="false">DeActivate</option>
+          </select>
+        </div>
+        <div className="form-group">
+          <button className="btn btn-success w-100">Update</button>
+        </div>
       </form>
     </div>
   );

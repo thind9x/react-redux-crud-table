@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import store from "./../store";
+import $ from "jquery";
 const AddUser = ({ dispatch, getalluser, adduser }) => {
   console.log(adduser);
   const [open, setOpen] = React.useState(false);
@@ -25,6 +26,7 @@ const AddUser = ({ dispatch, getalluser, adduser }) => {
     register,
     formState: { isDirty, isValid, errors },
     handleSubmit,
+    reset,
     watch,
   } = useForm({ mode: "all" });
   const onSubmit = (data) => {
@@ -34,32 +36,62 @@ const AddUser = ({ dispatch, getalluser, adduser }) => {
     var phone = data.phone;
     var location = data.location;
     var hobby = data.hobby;
-    axios
-      .post("https://60d2e16c858b410017b2e624.mockapi.io/api/v1/users/", {
-        first,
-        last,
-        email,
-        phone,
-        location,
-        hobby,
-      })
-      .then(
-        (res) => {
-          alert("Add Item success");
-          setOpen(false);
-          axios
-            .get("https://60d2e16c858b410017b2e624.mockapi.io/api/v1/users")
-            .then((resp) => {
-              dispatch({
-                type: "FETCH_ALL",
-                payload: resp.data,
+    var active = true;
+    var exist = false;
+    var createdAt = new Date();
+    var dd = String(createdAt.getDate()).padStart(2, "0");
+    var mm = String(createdAt.getMonth() + 1).padStart(2, "0"); //January is 0!
+    var yyyy = createdAt.getFullYear();
+    // var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+
+    createdAt = mm + "/" + dd + "/" + yyyy;
+    var upDateAt = createdAt;
+
+    getalluser.users.map((item) => {
+      console.log(item);
+      if (email === item.email) {
+        exist = true;
+      } else if (email !== item.email) {
+        exist = false;
+      }
+    });
+    console.log(exist);
+    if (exist === true) {
+      alert("Email is exist");
+    } else if (exist === false) {
+      axios
+        .post("https://60d2e16c858b410017b2e624.mockapi.io/api/v1/users/", {
+          createdAt,
+          first,
+          last,
+          email,
+          phone,
+          location,
+          hobby,
+          active,
+          upDateAt,
+        })
+        .then(
+          (res) => {
+            alert("Add Item success");
+
+            setOpen(false);
+            $("#formlogin").trigger("reset");
+
+            axios
+              .get("https://60d2e16c858b410017b2e624.mockapi.io/api/v1/users")
+              .then((resp) => {
+                dispatch({
+                  type: "FETCH_ALL",
+                  payload: resp.data,
+                });
               });
-            });
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+    }
   };
   return (
     <div>
@@ -71,7 +103,7 @@ const AddUser = ({ dispatch, getalluser, adduser }) => {
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+        <DialogTitle id="form-dialog-title">Add New User</DialogTitle>
         <DialogContent>
           <form method="post" onSubmit={handleSubmit(onSubmit)} id="formlogin">
             <div className="form-group">
